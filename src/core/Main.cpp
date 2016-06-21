@@ -1,6 +1,6 @@
 ////////////////////////////////////////
 // My includes
-#include "Graphics.h"
+#include "Graphics.hpp"
 ////////////////////////////////////////
 LRESULT CALLBACK WndProc(HWND hWnd,
                          UINT message,

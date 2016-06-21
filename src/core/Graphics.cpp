@@ -1,5 +1,5 @@
-#include "Graphics.h"
-#include "objectclass.h"
+#include "Graphics.hpp"
+#include "Objectclass.hpp"
 
 ///////////////////////////////////
 //

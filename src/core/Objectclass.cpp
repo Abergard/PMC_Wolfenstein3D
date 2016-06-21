@@ -1,4 +1,4 @@
-#include "objectclass.h"
+#include "Objectclass.hpp"
 #include <cstdio>
 #include <cstdlib>
 ////////////////////////////////////////
@@ -22,11 +22,11 @@ const char* walls = "E:/Game Design/bitmap/walls2.bmp";
 const char* hud = "E:/Game Design/bitmap/hud24.bmp";
 */
 
-const char* bars = "textures/bars.bmp";
-const char* door2 = "textures/door2.bmp";
-const char* door_front = "textures/door.bmp";
-const char* walls = "textures/walls2.bmp";
-const char* hud = "textures/hud24.bmp";
+const char* bars = "src/textures/bars.bmp";
+const char* door2 = "src/textures/door2.bmp";
+const char* door_front = "src/textures/door.bmp";
+const char* walls = "src/textures/walls2.bmp";
+const char* hud = "src/textures/hud24.bmp";
 
 ////////////////////////////////////////
 
@@ -159,7 +159,10 @@ void OBJECT_CUBE::CreateDoor(bool front)
     ////////////////////////////////////////////////////////
     // change texture
     if (!loadBMP_custom(door_front, 2))
+    {
         MessageBox(NULL, "TEXTURE ERROR", NULL, MB_OK);
+        return;
+    }
 
     glPushMatrix();
     glTranslatef(door_x, 0, door_z);
@@ -208,7 +211,10 @@ void OBJECT_CUBE::CreateDoor(bool front)
     ////////////////////////////////////////////////////////
     // return texture
     if (!loadBMP_custom(walls, 0))
+    {
         MessageBox(NULL, "TEXTURE ERROR", NULL, MB_OK);
+        return;
+    }
 
     glPushMatrix();
     glBegin(GL_QUADS);
@@ -335,7 +341,10 @@ void OBJECT_CUBE::CreateDoor(bool front)
     //////////////////////// left /////////////////////////////
     // change texture
     if (!loadBMP_custom(door2, 1))
+    {
         MessageBox(NULL, "TEXTURE ERROR", NULL, MB_OK);
+        return;
+    }
 
     glBegin(GL_QUADS);
     if (front == true)
@@ -404,7 +413,10 @@ void OBJECT_CUBE::CreateBars()
 {
     // change texture
     if (!loadBMP_custom(bars, 3))
+    {
         MessageBox(NULL, "TEXTURE ERROR", NULL, MB_OK);
+        return;
+    }
 
     glBegin(GL_QUADS);
     glPushMatrix();

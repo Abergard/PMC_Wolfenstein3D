@@ -1,6 +1,6 @@
 #pragma once
 //my includes
-#include "Camera.h"
+#include "Camera.hpp"
 
 // functions
 void Display(HDC hDC, HWND hWnd);

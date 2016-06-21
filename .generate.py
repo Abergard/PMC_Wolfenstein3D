@@ -1,13 +1,13 @@
 from external.ninja_generator.ninja_generator import NinjaGenerator
 
-project_root = "."
-main = "src"
+project_root = "./src"
+main = "core"
 libs = {}
 exe = "Wolfenstein3D.exe"
 
-files = {"src": {"Camera", "Graphics", "main", "objectclass"}}
+files = {"core": {"Camera", "Graphics", "Main", "Objectclass"}}
 
-includes = {"src": None}
+includes = {"core": None}
 
 lflags = ("Gdi32.lib "
           "User32.lib "
