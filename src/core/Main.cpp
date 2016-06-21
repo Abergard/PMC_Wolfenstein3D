@@ -78,7 +78,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 1;
     }
 
-    // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX / WS_CAPTION | WS_POPUPWINDOW
+    // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX /
+    // WS_CAPTION | WS_POPUPWINDOW
     hWnd = CreateWindowEx(WS_EX_CLIENTEDGE,
                           NazwaKlasy,
                           "MagicBox",
@@ -204,12 +205,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case VK_RETURN:
             if (EDITOR_MODE)
             {
-                //alfa = 180;
+                // alfa = 180;
                 beta = 0;
 
-                //camera_x = 55;
+                // camera_x = 55;
                 camera_y = 5;
-                //camera_z = 25;
+                // camera_z = 25;
 
                 EDITOR_MODE = false;
             }
