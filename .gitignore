@@ -1,1 +1,9 @@
+.*
 build/
+GPATH
+GRTAGS
+GTAGS
+compile_commands.json
+build.ninja
+!.clang-format
+!.generate.py

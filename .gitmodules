@@ -1,0 +1,3 @@
+[submodule "external/ninja_generator"]
+	path = external/ninja_generator
+	url = https://github.com/Abergard/ninja_generator.git
