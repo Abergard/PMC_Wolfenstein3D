@@ -2,25 +2,29 @@
 // My includes
 #include "Graphics.hpp"
 ////////////////////////////////////////
-LRESULT CALLBACK WndProc(HWND hWnd,
-                         UINT message,
-                         WPARAM wParam,
-                         LPARAM lParam);
-WNDCLASSEX wc;
+
+class MainC
+{
+public:
+    int initialize(HINSTANCE hInstance);
+
+private:
+    static LRESULT CALLBACK WndProc(HWND hWnd,
+                                    UINT message,
+                                    WPARAM wParam,
+                                    LPARAM lParam);
+
+    LRESULT CALLBACK realWndProc(HWND hWnd,
+                                 UINT message,
+                                 WPARAM wParam,
+                                 LPARAM lParam);
+
+    WNDCLASSEX wc;
+};
 
 void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 extern void DeleteBMP();
-
-LPSTR NazwaKlasy = "GL tutorial";
-MSG msg;
-HWND hWnd;
-HDC hDC;
-HGLRC hRC;
-BOOL quit = FALSE;
-
-GLfloat WIDTH = 650;
-GLfloat HEIGHT = 450;
 
 ////////////////////////////////////////
 extern GLboolean EDITOR_MODE;
@@ -46,32 +50,36 @@ extern bool rightMouseClick;
 extern GLfloat alfa;
 extern GLfloat beta;
 
-extern GLdouble camera_x;
 extern GLdouble camera_y;
-extern GLdouble camera_z;
 
-////////////////////////////////////////
-int WINAPI WinMain(HINSTANCE hInstance,
-                   HINSTANCE hPrievInstance,
-                   LPSTR lpCmdLine,
-                   int nCmdShow)
+int MainC::initialize(HINSTANCE hInstance)
 {
+    constexpr auto class_name = "GL tutorial";
+    MSG msg;
+    HWND hWnd;
+    HDC hDC;
+    HGLRC hRC;
+    BOOL quit = FALSE;
+
+    GLfloat WIDTH = 650;
+    GLfloat HEIGHT = 450;
+
     wc.cbSize = sizeof(WNDCLASSEX);
     wc.style = CS_OWNDC;
-    wc.lpfnWndProc = WndProc;
+    wc.lpfnWndProc = this->WndProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = hInstance;
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = NazwaKlasy;
-    wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
+    wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
+    wc.lpszMenuName = nullptr;
+    wc.lpszClassName = class_name;
+    wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
     if (!RegisterClassEx(&wc))
     {
-        MessageBox(NULL,
+        MessageBox(nullptr,
                    "Rejestracja okna nie powiodla sie!",
                    "Register Error",
                    MB_OK | MB_ICONEXCLAMATION);
@@ -81,21 +89,21 @@ int WINAPI WinMain(HINSTANCE hInstance,
     // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX /
     // WS_CAPTION | WS_POPUPWINDOW
     hWnd = CreateWindowEx(WS_EX_CLIENTEDGE,
-                          NazwaKlasy,
+                          class_name,
                           "MagicBox",
                           WS_OVERLAPPEDWINDOW | WS_VISIBLE,
                           CW_USEDEFAULT,
                           CW_USEDEFAULT,
                           WIDTH,
                           HEIGHT,
-                          NULL,
-                          NULL,
+                          nullptr,
+                          nullptr,
                           hInstance,
-                          NULL);
+                          nullptr);
 
-    if (hWnd == NULL)
+    if (hWnd == nullptr)
     {
-        MessageBox(NULL,
+        MessageBox(nullptr,
                    "Proba utworzenia okna nie powiodla sie!",
                    "Create Error",
                    MB_ICONEXCLAMATION);
@@ -109,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     while (!quit)
     {
         // check for messages
-        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             // handle or dispatch messages
             if (msg.message == WM_QUIT)
@@ -135,7 +143,37 @@ int WINAPI WinMain(HINSTANCE hInstance,
 }
 
 ////////////////////////////////////////
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
+{
+    MainC main;
+    return main.initialize(hInstance);
+}
+
+////////////////////////////////////////
+
+LRESULT CALLBACK MainC::WndProc(HWND hWnd,
+                                UINT msg,
+                                WPARAM wParam,
+                                LPARAM lParam)
+{
+    // auto pointer = GetWindowLongPtr(hWnd, GWLP_USERDATA);
+    // auto* me = reinterpret_cast<MainC*>(pointer);
+    // if (me)
+    // {
+    //     MessageBox(nullptr, "Jest Ok", "Create Error", MB_ICONEXCLAMATION);
+    //     return me->realWndProc(hWnd, msg, wParam, lParam);
+    // }
+    // return DefWindowProc(hWnd, msg, wParam, lParam);
+
+    auto* pState =
+        reinterpret_cast<MainC*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    return pState->realWndProc(hWnd, msg, wParam, lParam);
+}
+
+LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
+                                    UINT message,
+                                    WPARAM wParam,
+                                    LPARAM lParam)
 {
     switch (message)
     {
@@ -208,7 +246,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 // alfa = 180;
                 beta = 0;
 
-                // camera_x = 55;
                 camera_y = 5;
                 // camera_z = 25;
 
@@ -301,7 +338,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         if (EDITOR_MODE)
             SetCursor(wc.hCursor);
         else
-            SetCursor(NULL);
+            SetCursor(nullptr);
     }
         return TRUE;
 
@@ -351,7 +388,7 @@ void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC)
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC)
 {
     DeleteBMP();
-    wglMakeCurrent(NULL, NULL);
+    wglMakeCurrent(nullptr, nullptr);
     wglDeleteContext(hRC);
     ReleaseDC(hWnd, hDC);
 }

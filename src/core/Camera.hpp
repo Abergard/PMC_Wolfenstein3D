@@ -1,11 +1,11 @@
-
 #pragma once
 
-// includes
+#define WIN32_LEAN_AND_MEAN
 #define _USE_MATH_DEFINES
+
 #include <Windows.h>
 #include <gl\GLU.h>
-#include <math.h>
+#include <cmath>
 
 //function
 void Refresh(HWND hWnd);
