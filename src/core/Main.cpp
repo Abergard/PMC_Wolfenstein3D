@@ -139,7 +139,7 @@ int MainC::initialize(HINSTANCE hInstance)
     DisableOpenGL(hWnd, hDC, hRC);
 
     DestroyWindow(hWnd);
-    return msg.wParam;
+    return static_cast<int>(msg.wParam);
 }
 
 ////////////////////////////////////////
