@@ -34,6 +34,7 @@ add_executable(wolf
   src/core/Graphics.cpp
   src/core/Main.cpp
   src/core/Objectclass.cpp
+  src/core/ObjectCube.cpp
   )
 set_target_properties(wolf PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
 target_link_libraries(wolf gdi32 user32 glu32 opengl32)

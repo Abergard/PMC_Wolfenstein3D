@@ -1,8 +1,9 @@
-////////////////////////////////////////
-// My includes
 #include "Graphics.hpp"
-////////////////////////////////////////
+
+#include "Objectclass.hpp"
+
 #include <string>
+
 class MainC
 {
 public:
@@ -19,18 +20,18 @@ private:
                                  WPARAM wParam,
                                  LPARAM lParam);
 
+    void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC);
+    void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
+
     WNDCLASSEX wc;
     Camera camera{};
+    Objectclass objectclass;
 };
 
-void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC);
-void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
-extern void DeleteBMP();
+
 
 int MainC::initialize(HINSTANCE hInstance)
 {
-    MessageBox(nullptr, "start", "Dupa", MB_OK | MB_ICONEXCLAMATION);
-
     constexpr auto class_name = "GL tutorial";
     MSG msg;
     HWND hWnd;
@@ -54,8 +55,6 @@ int MainC::initialize(HINSTANCE hInstance)
     wc.lpszClassName = class_name;
     wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
-    MessageBox(nullptr, "start 1.2", "Dupa", MB_OK | MB_ICONEXCLAMATION);
-
     if (!RegisterClassEx(&wc))
     {
         MessageBox(nullptr,
@@ -65,7 +64,6 @@ int MainC::initialize(HINSTANCE hInstance)
         return 1;
     }
 
-    MessageBox(nullptr, "start register", "Dupa", MB_OK | MB_ICONEXCLAMATION);
     // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX /
     // WS_CAPTION | WS_POPUPWINDOW
     hWnd = CreateWindowEx(WS_EX_CLIENTEDGE,
@@ -80,10 +78,6 @@ int MainC::initialize(HINSTANCE hInstance)
                           nullptr,
                           hInstance,
                           nullptr);
-
-    const bool test = hWnd == nullptr;
-    const std::string txt = std::to_string(test) + ":start create";
-    MessageBox(nullptr, txt.c_str(), "dupa", MB_OK | MB_ICONEXCLAMATION);
 
     if (hWnd == nullptr)
     {
@@ -343,7 +337,7 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
 }
 
 // Enable OpenGL
-void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC)
+void MainC::EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC)
 {
     PIXELFORMATDESCRIPTOR pfd;
     int format;
@@ -373,10 +367,9 @@ void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC)
     glLineWidth(4.0f);
 }
 
-// Disable OpenGL
-void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC)
+void MainC::DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC)
 {
-    DeleteBMP();
+    objectclass.DeleteBMP();
     wglMakeCurrent(nullptr, nullptr);
     wglDeleteContext(hRC);
     ReleaseDC(hWnd, hDC);
