@@ -466,8 +466,8 @@ GLuint loadBMP_custom(const char* imagepath,
         }
 
         // Open the file
-        FILE* file = fopen(imagepath, "rb");
-        if (!file)
+        FILE* file{nullptr};
+        if (fopen_s(&file, imagepath, "rb"))
         {
             MessageBox(NULL, "Image could not be opened", NULL, NULL);
             return 0;
@@ -504,7 +504,7 @@ GLuint loadBMP_custom(const char* imagepath,
         // Read the actual data from the file into the buffer
         fread(data[numberOfTexture], 1, imageSize, file);
 
-        //Everything is in memory now, the file can be closed
+        // Everything is in memory now, the file can be closed
         fclose(file);
 
         // Create one OpenGL texture
@@ -526,7 +526,8 @@ void DeleteBMP()
 
 void ChooseBMP(int numberOfTexture)
 {
-    // "Bind" the newly created texture : all future texture functions will modify this texture
+    // "Bind" the newly created texture : all future texture functions will
+    // modify this texture
     glBindTexture(GL_TEXTURE_2D, textureID[numberOfTexture]);
 
     // Give the image to OpenGL

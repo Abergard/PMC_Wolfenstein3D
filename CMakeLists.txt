@@ -15,8 +15,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
 
 set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "/imsvc ")
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-#   --driver-mode=cl -fms-compatibility-version=19")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
+  --driver-mode=cl -fms-compatibility-version=19")
 
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror\
 #  -Wno-c++98-compat -Wno-c++98-compat-pedantic\
@@ -27,7 +27,7 @@ set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "/imsvc ")
 #  -Wno-language-extension-token -Wno-used-but-marked-unused\
 #  -Wno-shift-sign-overflow -Wno-deprecated -Wno-documentation-deprecated-sync\
 #  -Wno-weak-vtables -Wno-sign-conversion -Wno-padded -Wno-covered-switch-default\
-#  -Wno-extra-semi")
+#  -Wno-extra-semi -Wno-shadow-field-in-constructor -Wno-missing-variable-declarations")
 
 add_executable(wolf
   src/core/Camera.cpp

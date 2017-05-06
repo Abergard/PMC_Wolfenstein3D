@@ -172,7 +172,7 @@ void Hud(HWND hWnd)
     glPushMatrix();
     glLoadIdentity();
 
-    RECT rcClient, rcWind;
+    RECT rcClient;
 
     GetClientRect(hWnd, &rcClient);
 
