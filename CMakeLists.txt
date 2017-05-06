@@ -33,6 +33,7 @@ add_executable(wolf
   src/core/Camera.cpp
   src/core/Graphics.cpp
   src/core/Main.cpp
+  src/core/Window.cpp
   src/core/Objectclass.cpp
   src/core/ObjectCube.cpp
   )

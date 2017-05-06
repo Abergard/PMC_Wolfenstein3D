@@ -2,6 +2,7 @@
 
 #include "ObjectCube.hpp"
 #include "Objectclass.hpp"
+#include "Window.hpp"
 
 ///////////////////////////////////
 //
@@ -28,7 +29,7 @@ extern const char* hud;
 Objectclass objectclass{};
 
 ///////////////////////////////////
-void Display(HDC hDC, HWND hWnd, Camera& camera)
+void Display(Window& window, Camera& camera)
 {
     //
     glEnable(GL_TEXTURE_2D); // Enable Texture Mapping ( NEW )
@@ -38,7 +39,7 @@ void Display(HDC hDC, HWND hWnd, Camera& camera)
     glHint(GL_PERSPECTIVE_CORRECTION_HINT,
            GL_NICEST); // Really Nice Perspective
 
-    camera.Hud(hWnd);
+    camera.Hud(window.get_id());
 
     glClearColor(0.2f, 0.2f, 0.2f, 0.2f); // Black Background
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -89,7 +90,7 @@ void Display(HDC hDC, HWND hWnd, Camera& camera)
 
     glEnd();
 
-    camera.Move(hWnd);
+    camera.Move(window.get_id());
 
     //
     glDisable(GL_TEXTURE_2D);
@@ -108,7 +109,7 @@ void Display(HDC hDC, HWND hWnd, Camera& camera)
     RoomDelete();
 
     glFlush();
-    SwapBuffers(hDC);
+    window.swapBuffer();
 }
 
 void SceneDraw(GLfloat, GLfloat)

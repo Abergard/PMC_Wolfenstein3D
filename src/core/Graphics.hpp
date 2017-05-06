@@ -2,8 +2,10 @@
 //my includes
 #include "Camera.hpp"
 
+class Window;
+
 // functions
-void Display(HDC hDC, HWND hWnd, Camera&);
+void Display(Window&, Camera&);
 void DeleteQuadric(GLUquadricObj* m_object);
 void SceneDraw(GLfloat width, GLfloat length);
 

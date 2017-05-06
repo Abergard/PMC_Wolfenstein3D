@@ -5,7 +5,6 @@
 
 #include <Windows.h>
 #include <cmath>
-#include <exception>
 #include <gl\GLU.h>
 
 // function
