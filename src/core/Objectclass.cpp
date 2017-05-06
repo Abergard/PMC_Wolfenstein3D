@@ -22,11 +22,11 @@ const char* walls = "E:/Game Design/bitmap/walls2.bmp";
 const char* hud = "E:/Game Design/bitmap/hud24.bmp";
 */
 
-const char* bars = "src/textures/bars.bmp";
-const char* door2 = "src/textures/door2.bmp";
-const char* door_front = "src/textures/door.bmp";
-const char* walls = "src/textures/walls2.bmp";
-const char* hud = "src/textures/hud24.bmp";
+const char* bars = "textures/bars.bmp";
+const char* door2 = "textures/door2.bmp";
+const char* door_front = "textures/door.bmp";
+const char* walls = "textures/walls2.bmp";
+const char* hud = "textures/hud24.bmp";
 
 ////////////////////////////////////////
 

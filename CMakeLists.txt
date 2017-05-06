@@ -37,3 +37,6 @@ add_executable(wolf
   )
 set_target_properties(wolf PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS")
 target_link_libraries(wolf gdi32 user32 glu32 opengl32)
+add_custom_command(TARGET wolf POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+  ${CMAKE_SOURCE_DIR}/src/textures $<TARGET_FILE_DIR:wolf>/textures)
