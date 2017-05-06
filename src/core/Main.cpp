@@ -2,7 +2,7 @@
 // My includes
 #include "Graphics.hpp"
 ////////////////////////////////////////
-
+#include <string>
 class MainC
 {
 public:
@@ -20,40 +20,17 @@ private:
                                  LPARAM lParam);
 
     WNDCLASSEX wc;
+    Camera camera{};
 };
 
 void EnableOpenGL(HWND hWnd, HDC* hDC, HGLRC* hRC);
 void DisableOpenGL(HWND hWnd, HDC hDC, HGLRC hRC);
 extern void DeleteBMP();
 
-////////////////////////////////////////
-extern GLboolean EDITOR_MODE;
-
-extern GLboolean W;
-extern GLboolean S;
-extern GLboolean A;
-extern GLboolean D;
-extern GLboolean Q;
-extern GLboolean E;
-extern GLboolean SHIFT;
-extern GLboolean RIGHT;
-extern GLboolean LEFT;
-extern GLboolean SPACE;
-
-extern int oldMouseY;
-extern int oldMouseX;
-extern int mouseY;
-extern int mouseX;
-
-extern bool rightMouseClick;
-
-extern GLfloat alfa;
-extern GLfloat beta;
-
-extern GLdouble camera_y;
-
 int MainC::initialize(HINSTANCE hInstance)
 {
+    MessageBox(nullptr, "start", "Dupa", MB_OK | MB_ICONEXCLAMATION);
+
     constexpr auto class_name = "GL tutorial";
     MSG msg;
     HWND hWnd;
@@ -77,6 +54,8 @@ int MainC::initialize(HINSTANCE hInstance)
     wc.lpszClassName = class_name;
     wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
+    MessageBox(nullptr, "start 1.2", "Dupa", MB_OK | MB_ICONEXCLAMATION);
+
     if (!RegisterClassEx(&wc))
     {
         MessageBox(nullptr,
@@ -86,6 +65,7 @@ int MainC::initialize(HINSTANCE hInstance)
         return 1;
     }
 
+    MessageBox(nullptr, "start register", "Dupa", MB_OK | MB_ICONEXCLAMATION);
     // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX /
     // WS_CAPTION | WS_POPUPWINDOW
     hWnd = CreateWindowEx(WS_EX_CLIENTEDGE,
@@ -101,6 +81,10 @@ int MainC::initialize(HINSTANCE hInstance)
                           hInstance,
                           nullptr);
 
+    const bool test = hWnd == nullptr;
+    const std::string txt = std::to_string(test) + ":start create";
+    MessageBox(nullptr, txt.c_str(), "dupa", MB_OK | MB_ICONEXCLAMATION);
+
     if (hWnd == nullptr)
     {
         MessageBox(nullptr,
@@ -110,9 +94,12 @@ int MainC::initialize(HINSTANCE hInstance)
         return 1;
     }
 
+    SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
+
     // enable OpenGL for the window
     EnableOpenGL(hWnd, &hDC, &hRC);
 
+    camera.MapCreate();
     // program main loop
     while (!quit)
     {
@@ -132,7 +119,7 @@ int MainC::initialize(HINSTANCE hInstance)
         }
         else
         {
-            Display(hDC, hWnd);
+            Display(hDC, hWnd, camera);
         }
     }
 
@@ -165,9 +152,12 @@ LRESULT CALLBACK MainC::WndProc(HWND hWnd,
     // }
     // return DefWindowProc(hWnd, msg, wParam, lParam);
 
-    auto* pState =
-        reinterpret_cast<MainC*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-    return pState->realWndProc(hWnd, msg, wParam, lParam);
+    if (auto* main =
+            reinterpret_cast<MainC*>(GetWindowLongPtr(hWnd, GWLP_USERDATA)))
+    {
+        return main->realWndProc(hWnd, msg, wParam, lParam);
+    }
+    return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
@@ -178,7 +168,6 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
     switch (message)
     {
     case WM_CREATE:
-        MapCreate();
         PostMessage(hWnd, WM_SIZE, wParam, lParam);
         return 0;
 
@@ -199,60 +188,60 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
             break;
 
         case VK_SPACE:
-            SPACE = true;
+            camera.SPACE = true;
             break;
 
         case VK_RIGHT:
-            RIGHT = true;
+            camera.RIGHT = true;
             break;
 
         case VK_LEFT:
-            LEFT = true;
+            camera.LEFT = true;
             break;
 
         case 'Q':
-            if (EDITOR_MODE)
-                Q = true;
+            if (camera.EDITOR_MODE)
+                camera.Q = true;
             break;
 
         case 'E':
-            if (EDITOR_MODE)
-                E = true;
+            if (camera.EDITOR_MODE)
+                camera.E = true;
             break;
 
         case 'W':
-            W = true;
+            camera.W = true;
             break;
 
         case 'S':
-            S = true;
+            camera.S = true;
             break;
 
         case 'A':
-            A = true;
+            camera.A = true;
             break;
 
         case 'D':
-            D = true;
+            camera.D = true;
             break;
 
         case VK_SHIFT:
-            SHIFT = true;
+            camera.SHIFT = true;
             break;
 
         case VK_RETURN:
-            if (EDITOR_MODE)
+            if (camera.EDITOR_MODE)
             {
-                // alfa = 180;
-                beta = 0;
+                // camera.alfa = 180;
+                camera.beta = 0;
 
-                camera_y = 5;
+                camera.camera_y = 5;
                 // camera_z = 25;
 
-                EDITOR_MODE = false;
+                camera.EDITOR_MODE = false;
             }
             else
-                EDITOR_MODE = true;
+                camera.EDITOR_MODE = true;
             break;
         }
     }
@@ -264,33 +253,33 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
         {
 
         case VK_RIGHT:
-            RIGHT = false;
+            camera.RIGHT = false;
             break;
 
         case VK_LEFT:
-            LEFT = false;
+            camera.LEFT = false;
             break;
 
         case 'W':
-            W = false;
+            camera.W = false;
             break;
         case 'S':
-            S = false;
+            camera.S = false;
             break;
         case 'A':
-            A = false;
+            camera.A = false;
             break;
         case 'D':
-            D = false;
+            camera.D = false;
             break;
         case 'Q':
-            Q = false;
+            camera.Q = false;
             break;
         case 'E':
-            E = false;
+            camera.E = false;
             break;
         case VK_SHIFT:
-            SHIFT = false;
+            camera.SHIFT = false;
             break;
         }
     }
@@ -298,35 +287,35 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
 
     case WM_RBUTTONDOWN:
     {
-        rightMouseClick = true;
-        mouseX = LOWORD(lParam);
-        mouseY = HIWORD(lParam);
+        camera.rightMouseClick = true;
+        camera.mouseX = LOWORD(lParam);
+        camera.mouseY = HIWORD(lParam);
         SendMessage(hWnd, WM_MOUSEMOVE, wParam, lParam);
     }
         return 0;
 
     case WM_RBUTTONUP:
-        rightMouseClick = false;
+        camera.rightMouseClick = false;
         return 0;
 
     case WM_MOUSEMOVE:
     {
-        if (rightMouseClick && EDITOR_MODE)
+        if (camera.rightMouseClick && camera.EDITOR_MODE)
         {
             // save old mouse coordinates
-            oldMouseX = mouseX;
-            oldMouseY = mouseY;
+            camera.oldMouseX = camera.mouseX;
+            camera.oldMouseY = camera.mouseY;
 
             // get mouse coordinates from Windows
-            mouseX = LOWORD(lParam);
-            mouseY = HIWORD(lParam);
+            camera.mouseX = LOWORD(lParam);
+            camera.mouseY = HIWORD(lParam);
 
-            int diff_x = mouseX - oldMouseX;
-            int diff_y = mouseY - oldMouseY;
+            int diff_x = camera.mouseX - camera.oldMouseX;
+            int diff_y = camera.mouseY - camera.oldMouseY;
 
-            alfa += diff_x / 1.7;
-            if (EDITOR_MODE)
-                beta += diff_y / 1.7;
+            camera.alfa += diff_x / 1.7;
+            if (camera.EDITOR_MODE)
+                camera.beta += diff_y / 1.7;
 
             PostMessage(hWnd, WM_SIZE, wParam, lParam);
         }
@@ -335,7 +324,7 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
 
     case WM_SETCURSOR:
     {
-        if (EDITOR_MODE)
+        if (camera.EDITOR_MODE)
             SetCursor(wc.hCursor);
         else
             SetCursor(nullptr);
@@ -344,7 +333,7 @@ LRESULT CALLBACK MainC::realWndProc(HWND hWnd,
 
     case WM_SIZE:
     {
-        Refresh(hWnd);
+        camera.Refresh(hWnd);
     }
         return 0;
 

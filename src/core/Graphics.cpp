@@ -23,14 +23,8 @@ extern const char* walls;
 extern const char* bars;
 extern const char* hud;
 
-extern GLboolean DOOR;
-extern GLboolean CLOSE[];
-
-extern GLsizei width;
-extern GLsizei height;
-
 ///////////////////////////////////
-void Display(HDC hDC, HWND hWnd)
+void Display(HDC hDC, HWND hWnd, Camera& camera)
 {
     //
     glEnable(GL_TEXTURE_2D); // Enable Texture Mapping ( NEW )
@@ -40,7 +34,7 @@ void Display(HDC hDC, HWND hWnd)
     glHint(GL_PERSPECTIVE_CORRECTION_HINT,
            GL_NICEST); // Really Nice Perspective
 
-    Hud(hWnd);
+    camera.Hud(hWnd);
 
     glClearColor(0.2f, 0.2f, 0.2f, 0.2f); // Black Background
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,43 +49,43 @@ void Display(HDC hDC, HWND hWnd)
 
     glColor3f(1, 0, 0);
     glVertex2f(0, 0);
-    glVertex2f(width, 0);
-    glVertex2f(width, height / 8);
-    glVertex2f(0, height / 8);
+    glVertex2f(camera.width, 0);
+    glVertex2f(camera.width, camera.height / 8);
+    glVertex2f(0, camera.height / 8);
 
     glColor3f(1, 0, 0);
-    glVertex2f(0, height - height / 4);
-    glVertex2f(width, height - height / 4);
-    glVertex2f(width, height);
-    glVertex2f(0, height);
+    glVertex2f(0, camera.height - camera.height / 4);
+    glVertex2f(camera.width, camera.height - camera.height / 4);
+    glVertex2f(camera.width, camera.height);
+    glVertex2f(0, camera.height);
 
     glVertex2f(0, 0);
-    glVertex2f(0, height);
-    glVertex2f(width / 10, height);
-    glVertex2f(width / 10, 0);
+    glVertex2f(0, camera.height);
+    glVertex2f(camera.width / 10, camera.height);
+    glVertex2f(camera.width / 10, 0);
 
-    glVertex2f(width - width / 10, 0);
-    glVertex2f(width - width / 10, height);
-    glVertex2f(width, height);
-    glVertex2f(width, 0);
+    glVertex2f(camera.width - camera.width / 10, 0);
+    glVertex2f(camera.width - camera.width / 10, camera.height);
+    glVertex2f(camera.width, camera.height);
+    glVertex2f(camera.width, 0);
 
     glColor3f(0.8, 0.8, 0.8);
     // pasek HP itp
     glTexCoord2f(0.0f, 1.0f);
-    glVertex2f(10, height - height / 5);
+    glVertex2f(10, camera.height - camera.height / 5);
 
     glTexCoord2f(1.0f, 1.0f);
-    glVertex2f(width - 10, height - height / 5);
+    glVertex2f(camera.width - 10, camera.height - camera.height / 5);
 
     glTexCoord2f(1.0f, 0.0f);
-    glVertex2f(width - 10, height - 5);
+    glVertex2f(camera.width - 10, camera.height - 5);
 
     glTexCoord2f(0.0f, 0.0f);
-    glVertex2f(10, height - 5);
+    glVertex2f(10, camera.height - 5);
 
     glEnd();
 
-    Move(hWnd);
+    camera.Move(hWnd);
 
     //
     glDisable(GL_TEXTURE_2D);
@@ -103,7 +97,7 @@ void Display(HDC hDC, HWND hWnd)
 
     // ROOMS CREATING
     WallCreate();
-    Doors();
+    Doors(camera);
     BarsCreate();
 
     // ROOMS DESTROYING
@@ -113,7 +107,7 @@ void Display(HDC hDC, HWND hWnd)
     SwapBuffers(hDC);
 }
 
-void SceneDraw(GLfloat width, GLfloat length)
+void SceneDraw(GLfloat, GLfloat)
 {
     glPushMatrix();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -782,7 +776,7 @@ void RoomDelete()
     }
 }
 
-void Doors()
+void Doors(Camera& camera)
 {
     int i = 0;
 
@@ -797,7 +791,7 @@ void Doors()
                                 0.8f,
                                 true);
 
-    door[i - 1]->Move(CLOSE[0]);
+    door[i - 1]->Move(camera.CLOSE[0]);
     door[i - 1]->CreateDoor(true);
 
     door[i++] = new OBJECT_CUBE(100.0,
@@ -810,7 +804,7 @@ void Doors()
                                 0.8f,
                                 0.8f,
                                 true);
-    door[i - 1]->Move(CLOSE[2]);
+    door[i - 1]->Move(camera.CLOSE[2]);
     door[i - 1]->CreateDoor(true);
 
     door[i++] = new OBJECT_CUBE(50.0,
@@ -823,7 +817,7 @@ void Doors()
                                 0.8f,
                                 0.8f,
                                 true);
-    door[i - 1]->Move(CLOSE[1]);
+    door[i - 1]->Move(camera.CLOSE[1]);
     door[i - 1]->CreateDoor(true);
 
     door[i++] = new OBJECT_CUBE(100.0,
@@ -836,7 +830,7 @@ void Doors()
                                 0.8f,
                                 0.8f,
                                 true);
-    door[i - 1]->Move(CLOSE[3]);
+    door[i - 1]->Move(camera.CLOSE[3]);
     door[i - 1]->CreateDoor(true);
 
     door[i++] = new OBJECT_CUBE(120.0,
