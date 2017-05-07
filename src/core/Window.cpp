@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-int Window::initialize(HINSTANCE hInstance)
+Window::Window(HINSTANCE hInstance)
 {
     constexpr auto class_name = "GL tutorial";
 
@@ -32,11 +32,7 @@ int Window::initialize(HINSTANCE hInstance)
 
     if (!RegisterClassEx(&wc))
     {
-        MessageBox(nullptr,
-                   "Rejestracja okna nie powiodla sie!",
-                   "Register Error",
-                   MB_OK | MB_ICONEXCLAMATION);
-        return 1;
+        throw InitializeError{"Rejestracja okna nie powiodla sie!"};
     }
 
     // WS_OVERLAPPEDWINDOW WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX /
@@ -56,17 +52,18 @@ int Window::initialize(HINSTANCE hInstance)
 
     if (window == nullptr)
     {
-        MessageBox(nullptr,
-                   "Proba utworzenia okna nie powiodla sie!",
-                   "Create Error",
-                   MB_ICONEXCLAMATION);
-        return 1;
+        throw InitializeError{"Proba utworzenia okna nie powiodla sie!"};
     }
 
     SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)this);
     camera.MapCreate();
-    EnableOpenGL();
-    return 0;
+    enableOpenGL();
+}
+
+Window::~Window()
+{
+    disableOpenGL();
+    DestroyWindow(window);
 }
 
 HWND Window::get_id() const
@@ -266,14 +263,8 @@ LRESULT CALLBACK Window::realWndProc(HWND window,
     }
 }
 
-void Window::uninitialize()
-{
-    DisableOpenGL();
-    DestroyWindow(window);
-}
-
 // Enable OpenGL
-void Window::EnableOpenGL()
+void Window::enableOpenGL()
 {
     PIXELFORMATDESCRIPTOR pfd;
     int format;
@@ -303,7 +294,7 @@ void Window::EnableOpenGL()
     glLineWidth(4.0f);
 }
 
-void Window::DisableOpenGL()
+void Window::disableOpenGL()
 {
     objectclass.DeleteBMP();
     wglMakeCurrent(nullptr, nullptr);

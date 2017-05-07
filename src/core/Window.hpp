@@ -1,14 +1,24 @@
 #pragma once
 
-#include <Windows.h>
+#define WIN32_LEAN_AND_MEAN
+#define _USE_MATH_DEFINES
 
-#include "Graphics.hpp"
+#include <Windows.h>
+#include <stdexcept>
+
 #include "Objectclass.hpp"
+#include "Camera.hpp"
 
 class Window
 {
 public:
-    int initialize(HINSTANCE hInstance);
+    class InitializeError : public std::runtime_error
+    {
+        using std::runtime_error::runtime_error;
+    };
+    Window(HINSTANCE hInstance);
+    ~Window();
+
     void uninitialize();
     void swapBuffer();
 
@@ -21,8 +31,8 @@ private:
                                  WPARAM wParam,
                                  LPARAM lParam);
 
-    void EnableOpenGL();
-    void DisableOpenGL();
+    void enableOpenGL();
+    void disableOpenGL();
 
     WNDCLASSEX wc;
     Camera camera{};

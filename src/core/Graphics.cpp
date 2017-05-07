@@ -1,35 +1,13 @@
 #include "Graphics.hpp"
 
 #include "ObjectCube.hpp"
-#include "Objectclass.hpp"
 #include "Window.hpp"
 
 ///////////////////////////////////
-//
-GLfloat width_scene = 200;
-GLfloat lenght_scene = 200;
 
-const int wall_size = 58;
-OBJECT_CUBE* wall[wall_size];
-
-const int door_size = 5;
-OBJECT_CUBE* door[door_size];
-
-const int bars_size = 5;
-OBJECT_CUBE* tabBar[bars_size];
-
-int size_quads = 10;
-
-extern const char* door_front;
-extern const char* door2;
-extern const char* walls;
-extern const char* bars;
-extern const char* hud;
-
-Objectclass objectclass{};
 
 ///////////////////////////////////
-void Display(Window& window, Camera& camera)
+void Graphics::Display(Window& window, Camera& camera)
 {
     //
     glEnable(GL_TEXTURE_2D); // Enable Texture Mapping ( NEW )
@@ -112,7 +90,7 @@ void Display(Window& window, Camera& camera)
     window.swapBuffer();
 }
 
-void SceneDraw(GLfloat, GLfloat)
+void Graphics::SceneDraw(GLfloat, GLfloat)
 {
     glPushMatrix();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -146,7 +124,7 @@ void SceneDraw(GLfloat, GLfloat)
     glPopMatrix();
 }
 
-void WallCreate() // 14
+void Graphics::WallCreate() // 14
 {
     int i = 0;
 
@@ -808,7 +786,7 @@ void WallCreate() // 14
                                 false);
 }
 
-void RoomDelete()
+void Graphics::RoomDelete()
 {
 
     for (int i = 0; i < wall_size; ++i)
@@ -839,7 +817,7 @@ void RoomDelete()
     }
 }
 
-void Doors(Camera& camera)
+void Graphics::Doors(Camera& camera)
 {
     int i = 0;
 
@@ -914,7 +892,7 @@ void Doors(Camera& camera)
     door[i - 1]->CreateDoor(false);
 }
 
-void BarsCreate()
+void Graphics::BarsCreate()
 {
     int i = 0;
     tabBar[i++] = new OBJECT_CUBE(objectclass,

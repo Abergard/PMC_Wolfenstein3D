@@ -10,7 +10,6 @@ const char* bars = "textures/bars.bmp";
 const char* door2 = "textures/door2.bmp";
 const char* door_front = "textures/door.bmp";
 const char* walls = "textures/walls2.bmp";
-const char* hud = "textures/hud24.bmp";
 
 OBJECT_CUBE::OBJECT_CUBE(Objectclass& ob,
                          float x,
