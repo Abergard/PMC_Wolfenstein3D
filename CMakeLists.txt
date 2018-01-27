@@ -16,7 +16,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
 
 set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "/imsvc ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-  --driver-mode=cl -fms-compatibility-version=19")
+  -Xclang -std=c++1z")
 
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Werror\
 #  -Wno-c++98-compat -Wno-c++98-compat-pedantic\

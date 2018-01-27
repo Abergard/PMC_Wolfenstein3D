@@ -5,7 +5,6 @@
 
 ///////////////////////////////////
 
-
 ///////////////////////////////////
 void Graphics::Display(Window& window, Camera& camera)
 {
@@ -124,679 +123,115 @@ void Graphics::SceneDraw(GLfloat, GLfloat)
     glPopMatrix();
 }
 
+void Graphics::addCommonWall(float x, float y, float z, bool rotated = false)
+{
+    wall.emplace_back(objectclass,
+                      x,
+                      y,
+                      z,
+                      size_quads,
+                      size_quads,
+                      size_quads,
+                      0.8f,
+                      0.8f,
+                      0.8f,
+                      false,
+                      rotated);
+}
+
 void Graphics::WallCreate() // 14
 {
-    int i = 0;
+    addCommonWall(0.0, 0.0f, 10.0f); // poziomo // 3
+    addCommonWall(10.0, 0.0f, 10.0f);
+    addCommonWall(20.0, 0.0f, 10.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                0.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo // 3
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                10.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                20.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    constexpr std::size_t number_of_prisons = 4;
 
-    // kraty
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                30.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo // 2
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                40.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    // kraty
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                60.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // 2
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                70.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                00.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    // kraty
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                90.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // 2
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                100.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    // kraty
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                120.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // 2
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                -10.0,
-                                0.0f,
-                                130.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    // kraty
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                0.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo // 3
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                10.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                20.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    float pos = 30.0f;
+    for (int i = 0; i < number_of_prisons; ++i)
+    {
+        addCommonWall(0.0, 0.0f, pos);
+        addCommonWall(0.0, 0.0f, pos + 10.0f);
+        pos += 30.0f;
+    }
+    constexpr float room_width = 130.0f;
+    for(float pos = 0.0f; pos < room_width; pos += 10)
+    {
+        addCommonWall(pos, 0.0f, 140.0f, true);
+        addCommonWall(pos, 0.0f, 10.0f, true);
+    }
+    // addCommonWall(0.0, 0.0f, 140.0f, true); // poziomo // 3
+    // addCommonWall(10.0, 0.0f, 140.0f, true);
+    // addCommonWall(20.0, 0.0f, 140.0f, true);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                40.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo // 3
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                50.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                60.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(40.0, 0.0f, 140.0f, true); // poziomo // 3
+    // addCommonWall(50.0, 0.0f, 140.0f, true);
+    // addCommonWall(60.0, 0.0f, 140.0f, true);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                80.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo // 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                90.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                100.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                110.0,
-                                0.0f,
-                                150.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(80.0, 0.0f, 140.0f, true); // poziomo // 4
+    // addCommonWall(90.0, 0.0f, 140.0f, true);
+    // addCommonWall(100.0, 0.0f, 140.0f, true);
+    // addCommonWall(110.0, 0.0f, 140.0f, true);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                40.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo		// 3
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                50.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                60.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(40.0, 0.0f, 10.0f, true); // poziomo		// 3
+    // addCommonWall(50.0, 0.0f, 10.0f, true);
+    // addCommonWall(60.0, 0.0f, 10.0f, true);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                20.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo	// 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                30.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                40.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                50.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(30.0, 0.0f, 20.0f); // pionowo	// 4
+    // addCommonWall(30.0, 0.0f, 30.0f);
+    // addCommonWall(30.0, 0.0f, 40.0f);
+    // addCommonWall(30.0, 0.0f, 50.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                100.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo    // 2
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                80.0,
-                                0.0f,
-                                100.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(70.0, 0.0f, 100.0f); // poziomo    // 2
+    // addCommonWall(80.0, 0.0f, 100.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                100.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionow     // 5
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                110.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                120.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                130.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                140.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(30.0, 0.0f, 100.0f); // pionow     // 5
+    // addCommonWall(30.0, 0.0f, 110.0f);
+    // addCommonWall(30.0, 0.0f, 120.0f);
+    // addCommonWall(30.0, 0.0f, 130.0f);
+    // addCommonWall(30.0, 0.0f, 140.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                110.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo    // 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                120.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                130.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                140.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(70.0, 0.0f, 110.0f); // pionowo    // 4
+    // addCommonWall(70.0, 0.0f, 120.0f);
+    // addCommonWall(70.0, 0.0f, 130.0f);
+    // addCommonWall(70.0, 0.0f, 140.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                110.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo    // 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                120.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                130.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                140.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(120.0, 0.0f, 110.0f); // pionowo    // 4
+    // addCommonWall(120.0, 0.0f, 120.0f);
+    // addCommonWall(120.0, 0.0f, 130.0f);
+    // addCommonWall(120.0, 0.0f, 140.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                20.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo	// 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                30.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                40.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                50.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(70.0, 0.0f, 20.0f); // pionowo	// 4
+    // addCommonWall(70.0, 0.0f, 30.0f);
+    // addCommonWall(70.0, 0.0f, 40.0f);
+    // addCommonWall(70.0, 0.0f, 50.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                20.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // pionowo	// 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                30.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                40.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                120.0,
-                                0.0f,
-                                50.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(120.0, 0.0f, 20.0f); // pionowo	// 4
+    // addCommonWall(120.0, 0.0f, 30.0f);
+    // addCommonWall(120.0, 0.0f, 40.0f);
+    // addCommonWall(120.0, 0.0f, 50.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                30.0,
-                                0.0f,
-                                60.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo    // 3
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                70.0,
-                                0.0f,
-                                60.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                80.0,
-                                0.0f,
-                                60.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(30.0, 0.0f, 60.0f); // poziomo    // 3
+    // addCommonWall(70.0, 0.0f, 60.0f);
+    // addCommonWall(80.0, 0.0f, 60.0f);
 
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                80.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false); // poziomo // 4
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                90.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                100.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
-    wall[i++] = new OBJECT_CUBE(objectclass,
-                                110.0,
-                                0.0f,
-                                10.0f,
-                                size_quads,
-                                size_quads,
-                                size_quads,
-                                0.8f,
-                                0.8f,
-                                0.8f,
-                                false);
+    // addCommonWall(80.0, 0.0f, 10.0f); // poziomo // 4
+    // addCommonWall(90.0, 0.0f, 10.0f);
+    // addCommonWall(100.0, 0.0f, 10.0f);
+    // addCommonWall(110.0, 0.0f, 10.0f);
 }
 
 void Graphics::RoomDelete()
 {
-
-    for (int i = 0; i < wall_size; ++i)
-    {
-        if (wall[i] != NULL)
-        { // MessageBox(NULL, "CLEANER", NULL, NULL);
-            delete wall[i];
-            wall[i] = NULL;
-        }
-    }
+    // for (int i = 0; i < wall.size(); ++i)
+    // {
+    //     if (wall[i] != NULL)
+    //     { // MessageBox(NULL, "CLEANER", NULL, NULL);
+    //         delete wall[i];
+    //         wall[i] = NULL;
+    //     }
+    // }
+    wall.clear();
 
     for (int i = 0; i < door_size; ++i)
     {

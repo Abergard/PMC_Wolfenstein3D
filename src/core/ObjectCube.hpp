@@ -18,7 +18,7 @@ private:
     Objectclass& objectclass;
 
     /////////////////////////////////////////
-    void CreateWall();
+    void CreateWall(bool rotated);
     void CreateBars();
 
 public:
@@ -33,7 +33,8 @@ public:
                 float R,
                 float G,
                 float B,
-                bool door);
+                bool door,
+                bool rotated = false);
     OBJECT_CUBE(Objectclass&,
                 float x,
                 float y,

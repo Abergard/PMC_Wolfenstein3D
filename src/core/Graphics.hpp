@@ -2,9 +2,11 @@
 
 #include "Camera.hpp"
 #include "Objectclass.hpp"
+#include "ObjectCube.hpp"
+
+#include <vector>
 
 class Window;
-class OBJECT_CUBE;
 
 class Graphics
 {
@@ -20,12 +22,13 @@ public:
     void BarsCreate();
 
 private:
+    void addCommonWall(float x, float y, float z, bool rotated);
     //
     GLfloat width_scene = 200;
     GLfloat lenght_scene = 200;
 
     static constexpr int wall_size = 58;
-    OBJECT_CUBE* wall[wall_size];
+    std::vector<OBJECT_CUBE> wall;
 
     static constexpr int door_size = 5;
     OBJECT_CUBE* door[door_size];
