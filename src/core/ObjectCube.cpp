@@ -65,17 +65,18 @@ OBJECT_CUBE::OBJECT_CUBE(Objectclass& ob,
     this->door_x = 0;
     this->door_z = 0;
 
-    if (door == false)
-    {
-        this->CreateWall(rotated);
-    }
+    this->rotated = rotated;
+    // if (door == false)
+    // {
+    //     this->CreateWall(rotated);
+    // }
 }
 
 OBJECT_CUBE::~OBJECT_CUBE()
 {
 }
 
-void OBJECT_CUBE::CreateWall(bool rotated)
+void OBJECT_CUBE::CreateWall() const
 {
     glBegin(GL_QUADS);
     glPushMatrix();
@@ -85,20 +86,33 @@ void OBJECT_CUBE::CreateWall(bool rotated)
     {
         // right
         glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(x, y, z + this->width);
+        glVertex3f(x, y, z);
 
         glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(x + this->length, y, z + this->width);
+        glVertex3f(x + this->length, y, z);
 
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(x + this->length, y + this->height, z + this->width);
+        glVertex3f(x + this->length, y + this->height, z);
 
         glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(x, y + this->height, z + this->width);
+        glVertex3f(x, y + this->height, z);
     }
     else
     {
         // front
+        // glTexCoord2f(0.0f, 0.0f);
+        // glVertex3f(x, y, z);
+
+        // glTexCoord2f(1.0f, 0.0f);
+        // glVertex3f(x, y, z + this->width);
+
+        // glTexCoord2f(1.0f, 1.0f);
+        // glVertex3f(x, y + this->height, z + this->width);
+
+        // glTexCoord2f(0.0f, 1.0f);
+        // glVertex3f(x, y + this->height, z);
+
+        // // back
         glTexCoord2f(0.0f, 0.0f);
         glVertex3f(x, y, z);
 
@@ -111,18 +125,6 @@ void OBJECT_CUBE::CreateWall(bool rotated)
         glTexCoord2f(0.0f, 1.0f);
         glVertex3f(x, y + this->height, z);
     }
-    // // back
-    // glTexCoord2f(0.0f, 0.0f);
-    // glVertex3f(x + this->length, y, z);
-
-    // glTexCoord2f(1.0f, 0.0f);
-    // glVertex3f(x + this->length, y, z + this->width);
-
-    // glTexCoord2f(1.0f, 1.0f);
-    // glVertex3f(x + this->length, y + this->height, z + this->width);
-
-    // glTexCoord2f(0.0f, 1.0f);
-    // glVertex3f(x + this->length, y + this->height, z);
 
     // left
     // glTexCoord2f(0.0f, 0.0f);

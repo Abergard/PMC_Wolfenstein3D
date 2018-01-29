@@ -14,14 +14,16 @@ private:
 
     float door_x;
     float door_z;
+    bool rotated;
 
     Objectclass& objectclass;
 
     /////////////////////////////////////////
-    void CreateWall(bool rotated);
+
     void CreateBars();
 
 public:
+    void CreateWall() const;
     /////////////////////////////////////////
     OBJECT_CUBE(Objectclass&,
                 float x,

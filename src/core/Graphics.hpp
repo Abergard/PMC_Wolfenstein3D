@@ -11,23 +11,24 @@ class Window;
 class Graphics
 {
 public:
+    Graphics();
     // functions
     void Display(Window&, Camera&);
     void DeleteQuadric(GLUquadricObj* m_object);
     void SceneDraw(GLfloat width, GLfloat length);
 
     void WallCreate();
-    void RoomDelete();
+    void WallDraw();
     void Doors(Camera&);
     void BarsCreate();
 
 private:
     void addCommonWall(float x, float y, float z, bool rotated);
     //
-    GLfloat width_scene = 200;
-    GLfloat lenght_scene = 200;
+    GLfloat width_scene = 130;
+    GLfloat lenght_scene = 130;
 
-    static constexpr int wall_size = 58;
+    // static constexpr int wall_size = 58;
     std::vector<OBJECT_CUBE> wall;
 
     static constexpr int door_size = 5;
