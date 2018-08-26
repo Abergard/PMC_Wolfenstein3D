@@ -1,12 +1,15 @@
 #include "Camera.hpp"
 
+#include <string>
+
 Camera::Camera() : MAPA{}
 {
     memset(MAPA, 0, sizeof(MAPA[0][0]) * 14 * 15);
 }
 
-void Camera::Move(HWND hWnd)
+void Camera::Move(HWND hWnd, double dt)
 {
+    // dt = 1.0;
     float tmpz;
     float tmpx;
 
@@ -31,27 +34,28 @@ void Camera::Move(HWND hWnd)
 
     if (W)
     {
-        tmpz = (*camera_speed) * cos(DEG2RAD * alfa) * cos(DEG2RAD * beta);
+        tmpz = (*camera_speed) * cos(DEG2RAD * alfa) * cos(DEG2RAD * beta) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x, camera_z - tmpz * 10))
             camera_z -= tmpz;
 
-        tmpx = sin(DEG2RAD * alfa) * cos(DEG2RAD * beta) * (*camera_speed);
+        tmpx = sin(DEG2RAD * alfa) * cos(DEG2RAD * beta) * (*camera_speed) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x + tmpx * 10, camera_z))
             camera_x += tmpx;
 
+        // MessageBox(NULL, (std::string("TEXTURE ERROR: ") + std::to_string(dt)).c_str(), NULL, MB_OK);
         // camera_y -= sin(DEG2RAD*beta) * (*camera_speed);
     }
 
     if (S)
     {
-        tmpz = (*camera_speed) * cos(DEG2RAD * alfa) * cos(DEG2RAD * beta);
+        tmpz = (*camera_speed) * cos(DEG2RAD * alfa) * cos(DEG2RAD * beta) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x, camera_z + tmpz * 10))
             camera_z += tmpz;
 
-        tmpx = sin(DEG2RAD * alfa) * cos(DEG2RAD * beta) * (*camera_speed);
+        tmpx = sin(DEG2RAD * alfa) * cos(DEG2RAD * beta) * (*camera_speed) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x - tmpx * 10, camera_z))
             camera_x -= tmpx;
@@ -60,13 +64,13 @@ void Camera::Move(HWND hWnd)
     if (A)
     {
         tmpz = (*camera_speed) * cos(DEG2RAD * (alfa + 90)) *
-               cos(DEG2RAD * (beta));
+               cos(DEG2RAD * (beta)) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x, camera_z + tmpz * 10))
             camera_z += tmpz;
 
         tmpx = sin(DEG2RAD * (alfa + 90)) * cos(DEG2RAD * (beta)) *
-               (*camera_speed);
+               (*camera_speed) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x - tmpx * 10, camera_z))
             camera_x -= tmpx;
@@ -75,13 +79,13 @@ void Camera::Move(HWND hWnd)
     if (D)
     {
         tmpz = (*camera_speed) * cos(DEG2RAD * (alfa + 90)) *
-               cos(DEG2RAD * (beta));
+               cos(DEG2RAD * (beta)) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x, camera_z - tmpz * 10))
             camera_z -= tmpz;
 
         tmpx = sin(DEG2RAD * (alfa + 90)) * cos(DEG2RAD * (beta)) *
-               (*camera_speed);
+               (*camera_speed) * dt;
 
         if (EDITOR_MODE || TestMap(camera_x + tmpx * 10, camera_z))
             camera_x += tmpx;
@@ -89,12 +93,12 @@ void Camera::Move(HWND hWnd)
 
     if (Q)
     {
-        camera_y += (*camera_speed);
+        camera_y += (*camera_speed) * dt;
     }
 
     if (E)
     {
-        camera_y -= (*camera_speed);
+        camera_y -= (*camera_speed) * dt;
     }
     if (SHIFT)
     {
@@ -193,7 +197,7 @@ void Camera::MapCreate()
 
 bool Camera::TestMap(float x, float z, bool door)
 {
-
+    return true;
     if (door == true)
     {
         /*

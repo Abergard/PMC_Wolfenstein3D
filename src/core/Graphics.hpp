@@ -5,6 +5,7 @@
 #include "ObjectCube.hpp"
 
 #include <vector>
+#include <chrono>
 
 class Window;
 
@@ -43,4 +44,6 @@ private:
     const char* walls = "textures/walls2.bmp";
 
     Objectclass objectclass{};
+
+    std::chrono::high_resolution_clock::time_point last_frame;
 };

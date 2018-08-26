@@ -50,11 +50,20 @@ const std::array<MO, width_walls * height_walls> map_objects{
 Graphics::Graphics()
 {
     WallCreate();
+    last_frame = std::chrono::high_resolution_clock::now();
 }
 
 ///////////////////////////////////
 void Graphics::Display(Window& window, Camera& camera)
 {
+    const auto now = std::chrono::high_resolution_clock::now();
+    const double delta = std::chrono::duration_cast<std::chrono::duration<double>>(now - last_frame).count();
+
+
+    if(delta < 0.001)
+        return;
+
+    last_frame = now;
     //
     glEnable(GL_TEXTURE_2D); // Enable Texture Mapping ( NEW )
     glShadeModel(GL_SMOOTH); // Enable Smooth Shading
@@ -114,7 +123,7 @@ void Graphics::Display(Window& window, Camera& camera)
 
     glEnd();
 
-    camera.Move(window.get_id());
+    camera.Move(window.get_id(), delta);
 
     //
     glDisable(GL_TEXTURE_2D);

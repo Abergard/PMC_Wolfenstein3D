@@ -19,7 +19,7 @@ class Camera
 public:
     Camera();
 
-    void Move(HWND hWnd);
+    void Move(HWND hWnd, double dt);
     void Hud(HWND hWnd);
     void Refresh(HWND hWnd);
     void MapCreate();
@@ -28,8 +28,8 @@ public:
 public:
     GLboolean EDITOR_MODE = false;
 
-    GLfloat low_camera_speed = 0.6f;
-    GLfloat max_camera_speed = 1.0f;
+    GLfloat low_camera_speed = 10.6f;
+    GLfloat max_camera_speed = 20.0f;
     GLfloat* camera_speed = &low_camera_speed;
 
     GLdouble camera_x = 55;
