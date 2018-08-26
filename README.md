@@ -1,4 +1,6 @@
 # PMC_Wolfenstein3D
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Pimp my code - Wolfenstein 3D old school project
 
 ## The base idea of PimpMyCode
