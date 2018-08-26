@@ -1,7 +1,7 @@
 # PMC_Wolfenstein3D
 Pimp my code - Wolfenstein 3D old school project
 
-## The base idea of Pimp my code
+## The base idea of PimpMyCode
 All PMC_ projects was founded to take old school project and refactor them to achieve few goals:
  - to be buildable on many platform by using cmake
  - code should be cleaner and more expansible
