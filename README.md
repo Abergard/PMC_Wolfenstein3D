@@ -1,6 +1,6 @@
 # PMC_Wolfenstein3D
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![ready](https://img.shields.io/badge/ready-1%25-lightgrey.svg)](https://github.com/Abergard/PMC_Wolfenstein3D)
+[![ready](https://img.shields.io/badge/ready-1%25-lightgrey.svg)](https://github.com/Abergard/PMC_Wolfenstein3D/tree/pmc)
 
 Pimp my code - Wolfenstein 3D old school project
 
