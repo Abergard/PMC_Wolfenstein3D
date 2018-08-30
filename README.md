@@ -1,5 +1,6 @@
 # PMC_Wolfenstein3D
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![ready](https://img.shields.io/badge/ready-1%25-lightgrey.svg)](https://github.com/Abergard/PMC_Wolfenstein3D)
 
 Pimp my code - Wolfenstein 3D old school project
 
@@ -12,3 +13,4 @@ All PMC_ projects was founded to take old school project and refactor them to ac
 ## Branches:
  - master: for base version of project
  - pmc: for ongoing works to make a code be cleaner & better
+()
